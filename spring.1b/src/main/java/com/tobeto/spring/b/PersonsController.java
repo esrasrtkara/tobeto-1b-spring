@@ -25,7 +25,7 @@ public class PersonsController {
 
         return id;
     }*/
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Person getById(@PathVariable int id) {
         //Lammbda Expressions
         //Stream API
@@ -42,13 +42,17 @@ public class PersonsController {
     public void add(@RequestBody Person person){
         inMemoryList.add(person);
     }
-    @PutMapping
-    public  String update(@RequestBody Person person){
-        return "put ";
+    @PutMapping("/{id}")
+    public void update(@PathVariable int id, @RequestBody Person updatedPerson) {
+        Person person = getById(id);
+        person.setAge(updatedPerson.getAge());
+        person.setName(updatedPerson.getName());
+        person.setSurname(updatedPerson.getSurname());
     }
 
     @DeleteMapping("{id}")
-    public  String delete(@PathVariable int id){
-        return "delete ";
+    public  void delete(@PathVariable int id) {
+        Person personToRemove = getById(id);
+        inMemoryList.remove(personToRemove);
     }
 }
