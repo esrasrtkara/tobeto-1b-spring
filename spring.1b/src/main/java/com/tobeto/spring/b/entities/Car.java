@@ -1,11 +1,19 @@
 package com.tobeto.spring.b.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 import java.util.List;
 
 @Table(name = "cars")
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Car {
 
     @Column(name = "id")
@@ -22,9 +30,11 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "model_id")
+    @JsonIgnore
     private Model model;
 
     @OneToMany(mappedBy = "car")
+    @JsonIgnore
     private List<Order> orders;
 
 

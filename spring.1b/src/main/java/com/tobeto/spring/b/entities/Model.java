@@ -1,11 +1,18 @@
 package com.tobeto.spring.b.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "models")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +36,7 @@ public class Model {
     private Brand brand;
 
     @OneToMany(mappedBy = "model")
+    @JsonIgnore  // bu aşan jsona çevrilirken yok sayılacak
     private List<Car> cars;
 
 
