@@ -30,11 +30,9 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "model_id")
-    @JsonIgnore
     private Model model;
 
     @OneToMany(mappedBy = "car")
-    @JsonIgnore
     private List<Order> orders;
 
 

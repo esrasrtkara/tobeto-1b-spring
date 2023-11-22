@@ -23,6 +23,5 @@ public class Brand {
     private String name ;
 
     @OneToMany(mappedBy = "brand")
-    @JsonIgnore
     private List<Model> models;
 }
