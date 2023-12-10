@@ -11,6 +11,8 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
     List<Customer> findByName(String name);
     List<Customer> findByNameOrSurname(String name , String lastname );
 
+    boolean existsByPhone(String phone);
+
     @Query("SELECT new com.tobeto.spring.b.sevices.dtos.responses.customer" +
             ".GetListCustomerResponse(c.id,c.name,c.surname,c.address,c.phone) " +
             "FROM Customer c WHERE c.address=:address")

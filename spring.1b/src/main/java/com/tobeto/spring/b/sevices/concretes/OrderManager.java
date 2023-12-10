@@ -74,6 +74,9 @@ public class OrderManager implements OrderService {
 
     @Override
     public void add(AddOrderRequest request) {
+        if(request.getRetalDate().isAfter(request.getReturnDate())){
+            throw new RuntimeException("Geri dönüş tarihi kiralama tarihinden önce olamaz");
+        }
         Order order = new Order();
         Customer customer = new Customer();
         Car car = new Car();

@@ -6,6 +6,7 @@ import com.tobeto.spring.b.sevices.dtos.requests.model.UpdateModelRequest;
 import com.tobeto.spring.b.sevices.dtos.responses.model.GetListModelResponse;
 import com.tobeto.spring.b.sevices.dtos.responses.model.GetListResponse;
 import com.tobeto.spring.b.sevices.dtos.responses.model.GetModelResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class ModelsController {
         return modelService.findAll();
     }
     @PostMapping
-    public  void add(@RequestBody AddModelRequest addModelRequest){
+    public  void add(@RequestBody @Valid AddModelRequest addModelRequest){
         modelService.add(addModelRequest);
     }
     @PutMapping

@@ -10,6 +10,7 @@ import com.tobeto.spring.b.entities.Car;
 import com.tobeto.spring.b.entities.Customer;
 import com.tobeto.spring.b.entities.Order;
 import com.tobeto.spring.b.repositories.OrderRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class OrdersController {
         return orderService.getByCarId(carId);
     }
     @PostMapping
-    public void add(@RequestBody AddOrderRequest orderRequest){
+    public void add(@RequestBody @Valid AddOrderRequest orderRequest){
         orderService.add(orderRequest);
     }
     @PutMapping

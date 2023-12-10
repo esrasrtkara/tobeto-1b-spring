@@ -52,6 +52,10 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public void add(AddCustomerRequest request) {
+        if(customerRepository.existsByPhone(request.getPhone()))
+        {
+            throw new RuntimeException("Aynı telefon numarası girilemez");
+        }
         Customer customer = new Customer();
         customer.setName(request.getName());
         customer.setSurname(request.getSurname());

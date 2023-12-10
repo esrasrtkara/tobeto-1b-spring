@@ -58,6 +58,10 @@ public class ModelManager implements ModelService {
 
     @Override
     public void add(AddModelRequest request) {
+        if(request.getYear() < 2008)
+        {
+            throw new RuntimeException("Yıl 2008' den büyük olmalıdır.");
+        }
         Model model = new Model();
         Brand brand = new Brand();
         brand.setId(request.getBrandId());
