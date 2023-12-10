@@ -41,6 +41,41 @@ public class CarManager implements CarService {
     }
 
     @Override
+    public List<GetListCarResponse> getByPlate(String plate) {
+        List<Car> cars = carRepository.findByPlate(plate);
+        List<GetListCarResponse> responses = new ArrayList<>();
+
+        for (Car car:cars
+             ) {
+            GetListCarResponse response = new GetListCarResponse(car.getId(), car.getStatus(), car.getDailyPrice(), car.getPlate());
+            responses.add(response);
+        }
+        return responses;
+    }
+
+    @Override
+    public List<GetListCarResponse> getByStatusOrderByDailyPriceDesc(int status) {
+        List<Car> cars = carRepository.findByStatusOrderByDailyPriceDesc(status);
+        List<GetListCarResponse> responses = new ArrayList<>();
+        for (Car car:cars
+             ) {
+            GetListCarResponse response = new GetListCarResponse(car.getId(), car.getStatus(), car.getDailyPrice(), car.getPlate());
+            responses.add(response);
+        }
+        return responses;
+    }
+
+    @Override
+    public List<GetListCarResponse> search() {
+        return carRepository.search();
+    }
+
+    @Override
+    public List<GetListCarResponse> searchRentCar(int status) {
+        return carRepository.searchRentCar(status);
+    }
+
+    @Override
     public GetCarResponse getById(int id) {
         Car  car = carRepository.findById(id).orElseThrow();
         GetCarResponse carResponse = new GetCarResponse();
@@ -53,6 +88,9 @@ public class CarManager implements CarService {
 
     @Override
     public void add(AddCarRequest request) {
+        if(carRepository.existsByPlate(request.getPlate())){
+            throw new RuntimeException("Aynı Plaka numarası girilemez.");
+        }
         Car car = new Car();
         Model model = new Model();
         model.setId(request.getModelId());

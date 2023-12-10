@@ -7,6 +7,7 @@ import com.tobeto.spring.b.sevices.dtos.responses.brand.GetBrandListResponce;
 import com.tobeto.spring.b.sevices.dtos.responses.brand.GetBrandResponce;
 import com.tobeto.spring.b.entities.Brand;
 import com.tobeto.spring.b.repositories.BrandRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,17 @@ public class BrandsController {
         //Optional<T> => ilgili filtreden bir veri dönmeyebilir.
         return brandService.getById(id);
     }
+    @GetMapping("GetByName")
+    public List<GetBrandListResponce> getByName(@RequestParam String name){
+        return  brandService.getByName(name);
+    }
+
+    @GetMapping("search")
+    public List<GetBrandListResponce> search(String name){
+        return brandService.search(name);
+    }
     @PostMapping
-    public void add(@RequestBody AddBrandRequest addBrandRequest){
+    public void add(@RequestBody @Valid AddBrandRequest addBrandRequest){
         brandService.add(addBrandRequest);
     }
     @PutMapping

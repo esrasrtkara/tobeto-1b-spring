@@ -29,9 +29,10 @@ public class Car {
     private String plate;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "model_id")
     private Model model;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "car")
     private List<Order> orders;
 

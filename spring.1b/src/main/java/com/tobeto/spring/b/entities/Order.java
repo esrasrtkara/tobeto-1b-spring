@@ -19,7 +19,7 @@ public class Order {
      @Column(name = "id")
      private int id;
     @Column(name = "rental_date")
-     private LocalDate retalDate;
+     private LocalDate rentalDate;
     @Column(name = "return_date")
      private LocalDate returnDate;
 

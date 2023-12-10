@@ -33,10 +33,11 @@ public class Model {
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
+   // @JsonIgnore
     private Brand brand;
 
     @OneToMany(mappedBy = "model")
-    //@JsonIgnore  // bu aşan jsona çevrilirken yok sayılacak
+    @JsonIgnore  // bu aşan jsona çevrilirken yok sayılacak
     private List<Car> cars;
 
 

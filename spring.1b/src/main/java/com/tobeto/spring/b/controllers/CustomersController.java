@@ -28,6 +28,22 @@ public class CustomersController {
     public GetCustomerResponse getById(@PathVariable int id){
        return customerService.getById(id);
     }
+    @GetMapping("getByName")
+    List<GetListCustomerResponse> getByName(@RequestParam String name){
+        return this.customerService.getByName(name);
+    }
+    @GetMapping("getByNameOrSurname")
+    public List<GetListCustomerResponse> getByNameOrSurname(@RequestParam String name,@RequestParam String surname){
+        return customerService.getByNameOrSurname(name,surname);
+    }
+    @GetMapping("searchAddress")
+    public List<GetListCustomerResponse> searchAddress(@RequestParam String address){
+        return customerService.searchAddress(address);
+    }
+    @GetMapping("searchNameAndSurname")
+    public List<GetListCustomerResponse> searchNameAndSurname(@RequestParam String name,@RequestParam String surname){
+        return customerService.searchNameAndSurname(name,surname);
+    }
     @PostMapping
     public void add(@RequestBody AddCustomerRequest customerRequest){
         customerService.add(customerRequest);

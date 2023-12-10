@@ -8,10 +8,12 @@ import com.tobeto.spring.b.sevices.abstracts.OrderService;
 import com.tobeto.spring.b.sevices.dtos.requests.order.AddOrderRequest;
 import com.tobeto.spring.b.sevices.dtos.requests.order.UpdateOrderRequest;
 import com.tobeto.spring.b.sevices.dtos.responses.order.GetListOrderResponse;
+import com.tobeto.spring.b.sevices.dtos.responses.order.GetListResponse;
 import com.tobeto.spring.b.sevices.dtos.responses.order.GetOrderResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class OrderManager implements OrderService {
             orderResponse.setId(order.getId());
             orderResponse.setCustomerId(order.getCustomer().getId());
             orderResponse.setCarId(order.getCar().getId());
-            orderResponse.setRetalDate(order.getRetalDate());
+            orderResponse.setRetalDate(order.getRentalDate());
             orderResponse.setReturnDate(order.getReturnDate());
 
             orderResponses.add(orderResponse);
@@ -41,12 +43,30 @@ public class OrderManager implements OrderService {
     }
 
     @Override
+    public List<GetListOrderResponse> getByReturnDate(LocalDate date) {
+        List<Order> orders = orderRepository.findByReturnDate(date);
+        List<GetListOrderResponse> responses = new ArrayList<>();
+        for (Order order:orders
+             ) {
+            GetListOrderResponse response = new GetListOrderResponse(order.getId(),order.getCustomer().getId(),order.getCar().getId(),order.getRentalDate(),order.getReturnDate());
+            responses.add(response);
+
+        }
+        return responses;
+    }
+
+    @Override
+    public List<GetListResponse> getByCarId(int carId) {
+        return orderRepository.getByCarId(carId);
+    }
+
+    @Override
     public GetOrderResponse getById(int id) {
         Order order = orderRepository.findById(id).orElseThrow();
         GetOrderResponse orderResponse = new GetOrderResponse();
         orderResponse.setCustomerId(order.getCustomer().getId());
         orderResponse.setCarId(order.getCar().getId());
-        orderResponse.setRetalDate(order.getRetalDate());
+        orderResponse.setRetalDate(order.getRentalDate());
         orderResponse.setReturnDate(order.getReturnDate());
 
         return   orderResponse;
@@ -62,7 +82,7 @@ public class OrderManager implements OrderService {
         order.setCustomer(customer);
         order.setCar(car);
         order.setReturnDate(request.getReturnDate());
-        order.setRetalDate(request.getRetalDate());
+        order.setRentalDate(request.getRetalDate());
         orderRepository.save(order);
 
     }
@@ -79,7 +99,7 @@ public class OrderManager implements OrderService {
         order.setCustomer(customer);
         order.setCar(car);
         order.setReturnDate(request.getReturnDate());
-        order.setRetalDate(request.getRetalDate());
+        order.setRentalDate(request.getRetalDate());
 
         orderRepository.save(order);
 

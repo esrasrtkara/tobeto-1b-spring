@@ -21,6 +21,9 @@ public class BrandManager implements BrandService {
 
     @Override
     public void add(AddBrandRequest request) {
+        if(brandRepository.existsByName(request.getName().trim())){
+            throw new RuntimeException("Aynı isimde marka girilemez.");
+        }
         Brand brand = new Brand();
         brand.setName(request.getName());
 
@@ -37,6 +40,18 @@ public class BrandManager implements BrandService {
     }
 
     @Override
+    public List<GetBrandListResponce> getByName(String name) {
+       List<Brand> brands = brandRepository.findByNameLike("%"+name+"%");
+       List<GetBrandListResponce> responces = new ArrayList<>();
+        for (Brand brand:brands
+             ) {
+            responces.add(new GetBrandListResponce(brand.getName()));
+
+        }
+        return responces;
+    }
+
+    @Override
     public List<GetBrandListResponce> getAll() {
         List<Brand> brands = brandRepository.findAll();
         List<GetBrandListResponce> getBrandListResponces = new ArrayList<GetBrandListResponce>();
@@ -44,7 +59,6 @@ public class BrandManager implements BrandService {
         ) {
             GetBrandListResponce getBrandListResponce =new GetBrandListResponce();
 
-            getBrandListResponce.setId(brand.getId());
             getBrandListResponce.setName(brand.getName());
 
             getBrandListResponces.add(getBrandListResponce);
@@ -52,6 +66,13 @@ public class BrandManager implements BrandService {
 
         return getBrandListResponces;
     }
+
+    @Override
+    public List<GetBrandListResponce> search(String name) {
+        return brandRepository.search3(name);
+    }
+
+
 
     @Override
     public void update(UpdateBrandRequest request) {
